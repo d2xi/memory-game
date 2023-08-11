@@ -1,5 +1,6 @@
-function Card() {
-  return <div className="card">X</div>;
+interface CardProps {
+  cardLabel: string;
 }
-
-export default Card;
+export default function Card({ cardLabel }: CardProps) {
+  return <div className="card">{cardLabel}</div>;
+}

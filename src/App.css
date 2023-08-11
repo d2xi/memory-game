@@ -1,5 +1,12 @@
-.card {
+.grid {
+  width: 1000px;
   display: flex;
+  flex-wrap: wrap;
+  background-color: green;
+}
+
+.card {
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   height: 190px;
@@ -8,4 +15,6 @@
   border-width: 2px;
   border-radius: 5%;
   font-size: 190px;
+  margin: 1px;
 }
+
