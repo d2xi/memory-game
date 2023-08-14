@@ -1,20 +1,28 @@
 .grid {
-  width: 1000px;
+  /* display: inline-block; */
   display: flex;
   flex-wrap: wrap;
-  background-color: green;
-}
-
-.card {
-  display: inline-flex;
   justify-content: center;
   align-items: center;
-  height: 190px;
-  width: 130px;
-  border: 2px solid red;
-  border-width: 2px;
-  border-radius: 5%;
-  font-size: 190px;
-  margin: 1px;
+  max-width: 90%;
+  width: 100%;
+  gap: 1%;
+  /* padding: 1%; */
 }
 
+.grid > .card {
+  border: 1px solid rgb(99, 31, 31);
+  border-radius: 50%;
+  display: flex;
+  /* card dimesions */
+  height: 2em;
+  width: 2em;
+  font-size: 4em;
+  color: rgb(74, 89, 251);
+  /* center the card label */
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+  /* align-self: auto; */
+}
