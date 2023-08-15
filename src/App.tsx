@@ -13,11 +13,11 @@ const shuffleArray = (array: Array<string>) => {
 function App() {
   const cards = Array(10).fill("|").concat(Array(10).fill("="));
   shuffleArray(cards);
-  const click = () => console.log("clicked");
+  // const click = () => console.log("clicked");
   return (
     <div className="grid">
       {cards.map((card) => (
-        <Card cardLabel={card} onClick={click} />
+        <Card cardLabel={card} />
       ))}
     </div>
   );
