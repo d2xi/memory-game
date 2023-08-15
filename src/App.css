@@ -6,13 +6,13 @@
   align-items: center;
   max-width: 90%;
   width: 100%;
-  gap: 1%;
+  gap: 0.2em;
   /* padding: 1%; */
 }
 
 .grid > .card {
   border: 1px solid rgb(99, 31, 31);
-  border-radius: 50%;
+  border-radius: 10%;
   display: flex;
   /* card dimesions */
   height: 2em;
@@ -25,8 +25,13 @@
 
   box-sizing: border-box;
   /* align-self: auto; */
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .card.matched {
-  color: red;
+  color:#66D488;
+}
+
+.card.missmatched {
+  color: #FF94AD;
 }
