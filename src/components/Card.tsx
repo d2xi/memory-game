@@ -7,26 +7,27 @@ export interface CardProps {
 export interface ICard {
   getLabel: () => string;
   hide: () => void;
+  foundMatch: () => void;
 }
 export default function Card({ cardLabel, onClick }: CardProps) {
-  const [isReviled, setIsReviled] = useState(false);
+  const [isRevealed, setIsRevealed] = useState(false);
+  const [hasMatch, setHasMatch] = useState(false);
   const theCard: ICard = {
     hide: () => {
-      setIsReviled(false);
-      console.log("the card " + cardLabel + " was hidden");
+      setIsRevealed(false);
     },
     getLabel: () => cardLabel,
+    foundMatch: () => setHasMatch(true),
   };
   const handleClick = () => {
-    if (!isReviled) {
-      setIsReviled(true);
-      console.log("the card " + cardLabel + " was reviled");
+    if (!isRevealed) {
+      setIsRevealed(true);
       onClick(theCard);
     }
   };
   return (
-    <div className="card" onClick={handleClick}>
-      {isReviled && cardLabel}
+    <div className={hasMatch ? "card matched" : "card"} onClick={handleClick}>
+      {isRevealed && cardLabel}
     </div>
   );
 }

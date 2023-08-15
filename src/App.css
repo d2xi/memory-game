@@ -26,3 +26,7 @@
   box-sizing: border-box;
   /* align-self: auto; */
 }
+
+.card.matched {
+  color: red;
+}

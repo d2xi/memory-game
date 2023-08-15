@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import Card, { ICard } from "./components/Card";
 
@@ -19,21 +19,18 @@ function initBoard(): string[] {
 }
 
 function App() {
-  const [cards] = useState(initBoard());
+  const [cards] = useState<string[]>(initBoard());
   const [firstChoice, setFirstChoice] = useState<ICard>();
 
   const handleClick = (card: ICard) => {
     console.log(firstChoice);
     if (firstChoice === undefined) {
-      console.log("set");
       setFirstChoice(card);
     } else if (firstChoice.getLabel() === card.getLabel()) {
-      console.log(firstChoice.getLabel + " match " + card.getLabel);
+      firstChoice.foundMatch();
+      card.foundMatch();
       setFirstChoice(undefined); // do not like the usage of "undefined" -> check Optionals or something
     } else {
-      console.log(
-        firstChoice.getLabel() + " does not match " + card.getLabel()
-      );
       firstChoice.hide();
       card.hide();
       setFirstChoice(undefined);
