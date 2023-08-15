@@ -7,27 +7,51 @@ export interface CardProps {
 export interface ICard {
   getLabel: () => string;
   hide: () => void;
-  foundMatch: () => void;
+  missmatched: () => void;
+  matched: () => void;
 }
+
+enum CardState {
+  Matched = "matched",
+  Missmatched = "missmatched",
+  Hidden = "hidden",
+  Selected = "selected",
+}
+
+function getCssClass(cardSate: CardState) {
+  let cssClass = "card";
+  switch (cardSate) {
+    case CardState.Matched:
+      cssClass = "card matched";
+      break;
+    case CardState.Missmatched:
+      cssClass = "card missmatched";
+      break;
+    case CardState.Selected:
+      cssClass = "card";
+      break;
+  }
+  return cssClass;
+}
+
 export default function Card({ cardLabel, onClick }: CardProps) {
-  const [isRevealed, setIsRevealed] = useState(false);
-  const [hasMatch, setHasMatch] = useState(false);
+  const [cardSate, setCardState] = useState<CardState>(CardState.Hidden);
+
   const theCard: ICard = {
-    hide: () => {
-      setIsRevealed(false);
-    },
     getLabel: () => cardLabel,
-    foundMatch: () => setHasMatch(true),
+    hide: () => setCardState(CardState.Hidden),
+    missmatched: () => setCardState(CardState.Missmatched),
+    matched: () => setCardState(CardState.Matched),
   };
   const handleClick = () => {
-    if (!isRevealed) {
-      setIsRevealed(true);
+    if (cardSate === CardState.Hidden) {
+      setCardState(CardState.Selected);
       onClick(theCard);
     }
   };
   return (
-    <div className={hasMatch ? "card matched" : "card"} onClick={handleClick}>
-      {isRevealed && cardLabel}
+    <div className={getCssClass(cardSate)} onClick={handleClick}>
+      {cardSate !== CardState.Hidden && cardLabel}
     </div>
   );
 }

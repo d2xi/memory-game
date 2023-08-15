@@ -12,27 +12,47 @@ const shuffleArray = (array: Array<string>) => {
 };
 
 function initBoard(): string[] {
-  // const cards = "abcdefghijklmnqrstuvwxyz".repeat(2).split("");
-  const cards = "ab".repeat(2).split("");
+  const cards = "abcdefghijklmnqrstuvwxyz".repeat(2).split("");
+  // const cards = "ab".repeat(2).split("");
   shuffleArray(cards);
   return cards;
 }
+function flipHandler(first: ICard, second: ICard): () => void {
+  return () => {
+    first.hide();
+    second.hide();
+  };
+}
+
+type TimerObject = {
+  timerId: number;
+  callback: () => void;
+};
 
 function App() {
   const [cards] = useState<string[]>(initBoard());
-  const [firstChoice, setFirstChoice] = useState<ICard>();
+  const [firstChoice, setFirstChoice] = useState<ICard | undefined>();
+  const [timer, setTimer] = useState<TimerObject | undefined>();
 
-  const handleClick = (card: ICard) => {
+  const handleClick = (choice: ICard) => {
     console.log(firstChoice);
+    if (timer != undefined) {
+      clearTimeout(timer.timerId);
+      timer.callback();
+      setTimer(undefined);
+    }
     if (firstChoice === undefined) {
-      setFirstChoice(card);
-    } else if (firstChoice.getLabel() === card.getLabel()) {
-      firstChoice.foundMatch();
-      card.foundMatch();
+      setFirstChoice(choice);
+    } else if (firstChoice.getLabel() === choice.getLabel()) {
+      firstChoice.matched();
+      choice.matched();
       setFirstChoice(undefined); // do not like the usage of "undefined" -> check Optionals or something
     } else {
-      firstChoice.hide();
-      card.hide();
+      firstChoice.missmatched();
+      choice.missmatched();
+      const flip = flipHandler(firstChoice, choice);
+      const timerId = setTimeout(flip, 1000);
+      setTimer({ timerId: timerId, callback: flip });
       setFirstChoice(undefined);
     }
   };
