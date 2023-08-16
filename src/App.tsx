@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./App.css";
-import Card, { ICard } from "./components/Card";
+import CardComponent, { Card } from "./components/Card/Card";
 
 const shuffleArray = (array: Array<string>) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -17,7 +17,8 @@ function initBoard(): string[] {
   shuffleArray(cards);
   return cards;
 }
-function flipHandler(first: ICard, second: ICard): () => void {
+
+function flipHandler(first: Card, second: Card): () => void {
   return () => {
     first.hide();
     second.hide();
@@ -26,20 +27,27 @@ function flipHandler(first: ICard, second: ICard): () => void {
 
 type TimerObject = {
   timerId: number;
-  callback: () => void;
+  timerCallback: () => void;
 };
 
 function App() {
   const [cards] = useState<string[]>(initBoard());
-  const [firstChoice, setFirstChoice] = useState<ICard | undefined>();
-  const [timer, setTimer] = useState<TimerObject | undefined>();
-
-  const handleClick = (choice: ICard) => {
-    console.log(firstChoice);
-    if (timer != undefined) {
-      clearTimeout(timer.timerId);
-      timer.callback();
-      setTimer(undefined);
+  const [firstChoice, setFirstChoice] = useState<Card | undefined>();
+  const timerRef = useRef<TimerObject | undefined>();
+  const [numberMatchedPair, setnumberMatchedPair] = useState<number>(0);
+  let currNumberMatchedPair = numberMatchedPair;
+  const totalNumberPairs = cards.length / 2;
+  const incrementNumberMatchedPairs = () => {
+    console.log(currNumberMatchedPair);
+    currNumberMatchedPair += 1;
+    setnumberMatchedPair(currNumberMatchedPair);
+    console.log(currNumberMatchedPair);
+  };
+  const handleClick = (choice: Card) => {
+    if (timerRef.current != undefined) {
+      clearTimeout(timerRef.current.timerId);
+      timerRef.current.timerCallback();
+      timerRef.current = undefined;
     }
     if (firstChoice === undefined) {
       setFirstChoice(choice);
@@ -47,19 +55,24 @@ function App() {
       firstChoice.matched();
       choice.matched();
       setFirstChoice(undefined); // do not like the usage of "undefined" -> check Optionals or something
+      incrementNumberMatchedPairs();
+      if (currNumberMatchedPair === totalNumberPairs) {
+        alert("Wohoom! You won!");
+      }
+      console.log(numberMatchedPair, totalNumberPairs);
     } else {
       firstChoice.missmatched();
       choice.missmatched();
       const flip = flipHandler(firstChoice, choice);
       const timerId = setTimeout(flip, 1000);
-      setTimer({ timerId: timerId, callback: flip });
+      timerRef.current = { timerId: timerId, timerCallback: flip };
       setFirstChoice(undefined);
     }
   };
   return (
     <div className="grid">
       {cards.map((card, index) => (
-        <Card key={index} cardLabel={card} onClick={handleClick} />
+        <CardComponent key={index} cardLabel={card} onClick={handleClick} />
       ))}
     </div>
   );
