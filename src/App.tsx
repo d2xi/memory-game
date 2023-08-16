@@ -12,8 +12,8 @@ const shuffleArray = (array: Array<string>) => {
 };
 
 function initBoard(): string[] {
-  const cards = "abcdefghijklmnqrstuvwxyz".repeat(2).split("");
-  // const cards = "ab".repeat(2).split("");
+  // const cards = "abcdefghijklmnqrstuvwxyz".repeat(2).split("");
+  const cards = "ab".repeat(2).split("");
   shuffleArray(cards);
   return cards;
 }
@@ -34,14 +34,10 @@ function App() {
   const [cards] = useState<string[]>(initBoard());
   const [firstChoice, setFirstChoice] = useState<Card | undefined>();
   const timerRef = useRef<TimerObject | undefined>();
-  const [numberMatchedPair, setnumberMatchedPair] = useState<number>(0);
-  let currNumberMatchedPair = numberMatchedPair;
+  const numberMatchedPairsRef = useRef<number>(0);
   const totalNumberPairs = cards.length / 2;
   const incrementNumberMatchedPairs = () => {
-    console.log(currNumberMatchedPair);
-    currNumberMatchedPair += 1;
-    setnumberMatchedPair(currNumberMatchedPair);
-    console.log(currNumberMatchedPair);
+    numberMatchedPairsRef.current += 1;
   };
   const handleClick = (choice: Card) => {
     if (timerRef.current != undefined) {
@@ -56,10 +52,9 @@ function App() {
       choice.matched();
       setFirstChoice(undefined); // do not like the usage of "undefined" -> check Optionals or something
       incrementNumberMatchedPairs();
-      if (currNumberMatchedPair === totalNumberPairs) {
+      if (numberMatchedPairsRef.current === totalNumberPairs) {
         alert("Wohoom! You won!");
       }
-      console.log(numberMatchedPair, totalNumberPairs);
     } else {
       firstChoice.missmatched();
       choice.missmatched();
