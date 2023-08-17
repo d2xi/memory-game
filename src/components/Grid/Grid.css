@@ -1,0 +1,10 @@
+.grid {
+    /* display: inline-block; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    gap: 0.2em;
+    /* padding: 1%; */
+  }
