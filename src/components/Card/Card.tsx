@@ -12,6 +12,7 @@ function getCardStyle(cardSate: CardState) {
     case CardState.Selected:
       break;
     case CardState.Hidden:
+      baseClass += " hidden";
       break;
     default:
       throw new Error("Invalid card state");
