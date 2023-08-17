@@ -12,7 +12,14 @@ const shuffleArray = (array: Array<string>) => {
 };
 
 function prepareCards(): Card[] {
-  const lables = "abcdefghijklmnqrstuvwxyz".repeat(2).split("");
+  // const lables = "abcdefghijklmnqrstuvwxyz".repeat(2).split("");
+  const lables = "我你他是的在现在时间工作习学校天电影音乐食物旅行"
+    .repeat(2)
+    .split("");
+  // const lables =
+  //   "我你他是的在现在时间工作学习学校天气电影音乐食物旅行朋友家人爱情健康快乐成长梦想希望成功"
+  //     .repeat(2)
+  //     .split("");
   // const lables = "ab".repeat(2).split("");
   shuffleArray(lables);
   let cardId = 0;
@@ -28,6 +35,7 @@ type Timer = {
   timerId: number;
   timerCallback: (card: Card[]) => void;
 };
+
 function App() {
   const [cards, setCards] = useState<Card[]>(prepareCards());
   const choices = useRef<number[]>([]);
@@ -55,9 +63,37 @@ function App() {
     }
     if (choices.current.length == 2) {
       if (timerRef.current !== undefined) {
+        // timer is set -> 2 cards are opened
         clearTimeout(timerRef.current.timerId);
-        timerRef.current.timerCallback(cards);
         timerRef.current = undefined;
+
+        nextState = nextState.map((c) => {
+          if (choices.current.includes(c.id)) {
+            return {
+              ...c,
+              state: CardState.Hidden,
+            };
+          } else {
+            return c;
+          }
+        });
+
+        choices.current.length = 0;
+
+        if (nextState[id].state !== CardState.Matched) {
+          choices.current.push(id);
+          nextState = nextState.map((c) => {
+            if (c.id == id) {
+              return {
+                ...c,
+                state: CardState.Selected,
+              };
+            } else {
+              return c;
+            }
+          });
+        }
+        setCards(nextState);
       } else if (
         cards[choices.current[0]].label === cards[choices.current[1]].label
       ) {
@@ -86,8 +122,9 @@ function App() {
         });
         setCards(nextState);
 
-        const hideCb = (cards: Card[]) => {
-          nextState = cards.map((c) => {
+        const hideCb = (currentState: Card[]) => {
+          // cards is passed as argument - not the same as above
+          nextState = currentState.map((c) => {
             if (choices.current.includes(c.id)) {
               return {
                 ...c,
@@ -101,7 +138,8 @@ function App() {
           setCards(nextState);
           timerRef.current = undefined;
         };
-        const timerId = setTimeout(hideCb, 1000, cards);
+
+        const timerId = setTimeout(hideCb, 1500, cards);
         timerRef.current = { timerId: timerId, timerCallback: hideCb };
       }
     }
