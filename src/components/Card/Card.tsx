@@ -1,63 +1,50 @@
-import { useState } from "react";
 import "./Card.css";
+
+function getCardStyle(cardSate: CardState) {
+  let baseClass = "card";
+  switch (cardSate) {
+    case CardState.Matched:
+      baseClass += " matched";
+      break;
+    case CardState.Missmatched:
+      baseClass += " missmatched";
+      break;
+    case CardState.Selected:
+      break;
+    case CardState.Hidden:
+      break;
+    default:
+      throw new Error("Invalid card state");
+  }
+  return baseClass;
+}
+
+export enum CardState {
+  Matched,
+  Missmatched,
+  Hidden,
+  Selected,
+}
 export interface Card {
-  getLabel: () => string;
-  hide: () => void;
-  missmatched: () => void;
-  matched: () => void;
+  id: number;
+  label: string;
+  state: CardState;
 }
 
 export interface CardProps {
-  cardLabel: string;
-  onClick: (card: Card) => void;
+  card: Card;
+  onClick: (id: number) => void;
 }
-
-enum CardState {
-  Matched = "matched",
-  Missmatched = "missmatched",
-  Hidden = "hidden",
-  Selected = "selected",
-}
-
-function getCardStyle(cardSate: CardState) {
-  let cardStyle = "card";
-  switch (cardSate) {
-    case CardState.Matched:
-      cardStyle = "card matched";
-      break;
-    case CardState.Missmatched:
-      cardStyle = "card missmatched";
-      break;
-    case CardState.Selected:
-      cardStyle = "card";
-      break;
-  }
-  return cardStyle;
-}
-
-export default function CardComponent({ cardLabel, onClick }: CardProps) {
-  const [cardSate, setCardState] = useState<CardState>(CardState.Hidden);
-  let curretCardState: CardState = cardSate;
-  const card: Card = {
-    getLabel: () => cardLabel,
-    hide: () => setCardState(CardState.Hidden),
-    missmatched: () => setCardState(CardState.Missmatched),
-    matched: () => setCardState(CardState.Matched),
-  };
-  const handleClick = () => {
-    console.log("click");
-    if (curretCardState === CardState.Hidden) {
-      console.log("non-hidden");
-      curretCardState = CardState.Selected;
-      setCardState(curretCardState);
-      onClick(card);
-    } else {
-      console.log("hidden");
-    }
-  };
+export default function CardComponent({
+  card,
+  onClick: handleClick,
+}: CardProps) {
   return (
-    <div className={getCardStyle(curretCardState)} onClick={handleClick}>
-      {curretCardState !== CardState.Hidden && cardLabel}
+    <div
+      className={getCardStyle(card.state)}
+      onClick={() => handleClick(card.id)}
+    >
+      {card.state !== CardState.Hidden && card.label}
     </div>
   );
 }
