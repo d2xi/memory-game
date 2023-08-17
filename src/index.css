@@ -1,17 +1,17 @@
 #root {
     /* background-color: lightgray; */
     width: 100vw;
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
     box-sizing: border-box;
   }
 
 body {
   background-color: #ffeead;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   min-height: 100vh;
   /* prevent user from highlighting card labels */
   -moz-user-select: none;

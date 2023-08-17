@@ -146,11 +146,18 @@ function App() {
   };
 
   return (
-    <div className="grid">
-      {cards.map((card) => (
-        <CardComponent key={card.id} card={card} onClick={handleClick} />
-      ))}
-    </div>
+    <>
+      <div className="btn-container">
+        <button className="btn-new-game" onClick={() => console.log("click")}>
+          new game
+        </button>
+      </div>
+      <div className="grid">
+        {cards.map((card) => (
+          <CardComponent key={card.id} card={card} onClick={handleClick} />
+        ))}
+      </div>
+    </>
   );
 }
 
