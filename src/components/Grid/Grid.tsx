@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./Grid.css";
 import CardComponent, { Card, CardState } from "../Card/Card";
 
@@ -12,6 +12,9 @@ interface GridComponentProps {
 
 function GridComponent({ initCards }: GridComponentProps) {
   const [cards, setCards] = useState<Card[]>(initCards);
+  useEffect(() => {
+    setCards(initCards);
+  }, [initCards]);
   const choices = useRef<number[]>([]);
   const timerRef = useRef<Timer | undefined>();
   const handleClick = (id: number) => {

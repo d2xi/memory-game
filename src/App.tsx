@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import CardComponent, { Card, CardState } from "./components/Card/Card";
+import { Card, CardState } from "./components/Card/Card";
 import GridComponent from "./components/Grid/Grid";
 
 const shuffleArray = (array: Array<string>) => {
@@ -33,15 +33,21 @@ function prepareCards(): Card[] {
 }
 
 function App() {
+  const [cards, setCards] = useState(prepareCards());
   return (
     <>
       <div className="btn-container">
-        <button className="btn-new-game" onClick={() => console.log("click")}>
+        <button
+          className="btn-new-game"
+          onClick={() => {
+            setCards(prepareCards());
+          }}
+        >
           new game
         </button>
       </div>
       <div className="grid">
-        <GridComponent initCards={prepareCards()} />
+        <GridComponent initCards={cards} />
       </div>
     </>
   );
