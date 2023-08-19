@@ -36,8 +36,9 @@ export interface CardProps {
   card: Card;
   onClick: (id: number) => void;
 }
+
 export default function CardComponent({
-  card,
+  card: card,
   onClick: handleClick,
 }: CardProps) {
   return (

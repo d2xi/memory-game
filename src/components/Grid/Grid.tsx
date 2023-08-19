@@ -7,18 +7,30 @@ type Timer = {
   timerCallback: (card: Card[]) => void;
 };
 interface GridComponentProps {
-  initCards: Card[]; // Replace YourCardType with the actual type of your cards
+  initCards: Card[];
+  onWinner: () => void;
+  onFirstSelection: () => void;
 }
 
-function GridComponent({ initCards }: GridComponentProps) {
+function GridComponent({
+  initCards,
+  onWinner,
+  onFirstSelection,
+}: GridComponentProps) {
+  const gameIsActiveRef = useRef<boolean>(false);
   const [cards, setCards] = useState<Card[]>(initCards);
   useEffect(() => {
     setCards(initCards);
   }, [initCards]);
+  const pairsLeftRef = useRef(initCards.length / 2);
   const choices = useRef<number[]>([]);
   const timerRef = useRef<Timer | undefined>();
   const handleClick = (id: number) => {
     let nextState = cards;
+    if (!gameIsActiveRef.current) {
+      onFirstSelection();
+      gameIsActiveRef.current = true;
+    }
     if (choices.current.length < 2) {
       if (
         cards[id].state === CardState.Hidden &&
@@ -86,6 +98,11 @@ function GridComponent({ initCards }: GridComponentProps) {
         });
         choices.current.length = 0;
         setCards(nextState);
+        pairsLeftRef.current -= 1;
+        if (pairsLeftRef.current == 0) {
+          console.log("You won");
+          onWinner();
+        }
       } else {
         nextState = cards.map((c) => {
           if (choices.current.includes(c.id)) {

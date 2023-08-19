@@ -1,7 +1,7 @@
 .btn-container {
   width: 90%;
   display: flex;
-  justify-content: left;
+  justify-content: space-evenly;
   align-items: center;
   padding: 1em;
 }
