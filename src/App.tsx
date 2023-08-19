@@ -17,10 +17,10 @@ const shuffleArray = (array: Array<string>) => {
 
 function prepareCards(): Card[] {
   // const lables = "abcdefghijklmnqrstuvwxyz".repeat(2).split("");
-  const lables = "abc".repeat(2).split("");
-  // const lables = "我你他是的在现在时间工作习学校天电影音乐食物旅行"
-  //   .repeat(2)
-  //   .split("");
+  // const lables = "abc".repeat(2).split("");
+  const lables = "我你他是的在现在时间工作习学校天电影音乐食物旅行"
+    .repeat(2)
+    .split("");
   // const lables =
   //   "我你他是的在现在时间工作学习学校天气电影音乐食物旅行朋友家人爱情健康快乐成长梦想希望成功"
   //     .repeat(2)

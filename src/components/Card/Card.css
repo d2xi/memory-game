@@ -17,7 +17,7 @@
   
   .grid > .card.hidden:hover {
     /* box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2); */
-    border: 5px solid #45a049;
+    border: 1px solid black;
     /* font-size: 4.1em; */
     /* transform: rotateZ(360deg) */
   }
