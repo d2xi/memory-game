@@ -32,9 +32,9 @@ export default function StopwatchComponent({
   }
   return (
     <>
-      {/* <div className="timer"> */}
-      {initDoneRef.current && ((currTime - startTime) / 1000).toFixed(3)}
-      {/* </div> */}
+      <div className="stopwatch">
+        {initDoneRef.current && ((currTime - startTime) / 1000).toFixed(3)}
+      </div>
     </>
   );
 }

@@ -1,8 +1,4 @@
-.timer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+.stopwatch {
     color: black;
-    font-size: 3em;
+    display: inline-block;
 }

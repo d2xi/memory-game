@@ -16,4 +16,6 @@ body {
   /* prevent user from highlighting card labels */
   -moz-user-select: none;
   user-select: none;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
 }

@@ -58,7 +58,7 @@ function App() {
   };
   return (
     <>
-      <div className="btn-container">
+      <div className="display-container">
         <button className="btn-new-game" onClick={handleNewGameButtonClick}>
           new game
         </button>
@@ -66,7 +66,7 @@ function App() {
           key={"swc" + gameRef.current}
           onInit={getStopwatchControls}
         />
-        {isWon && <h1>"Woohoo! Your win!"</h1>}
+        {isWon && <div>"Woohoo! Your win!"</div>}
       </div>
       <GridComponent
         key={"gc" + gameRef.current}
